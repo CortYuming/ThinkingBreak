@@ -1,0 +1,65 @@
+@charset "UTF-8";
+
+
+.minButton {
+  position: absolute;
+  left: 15px;
+  top: 190px;
+  width: 140px;
+  margin: 0;
+  padding: 0;
+  /* memo: bottom, right で位置設定するとアニメーション時にズレる  */
+  /* bottom:60px; */
+  /* right: 5px; */
+}
+
+.minButton a.shortBreakButton,
+.minButton a.longBreakButton {
+  font-size:x-large;
+  margin-top: 12px;
+  padding-top: 15px;
+  height: 44px;
+}
+
+.minButton a.actionButton {
+  font-size:xx-large;
+  margin-top: 12px;
+  padding-top: 20px;
+  height: 60px;
+}
+
+.controlButton {
+  position: absolute;
+  left: 205px;
+  top: 325px;
+  margin: 0;
+  padding: 0;
+}
+
+.controlButton a {
+  width: 100px;
+  height: 100px;
+  opacity: 0.4;
+}
+
+.controlButton a img {
+  padding-top: 30px;
+}
+
+#contentTimer {
+  background-image: url("img/watch_bg.png");
+  background-repeat: no-repeat;
+}
+
+#settings label {
+  margin-top: 10px;
+  
+}
+
+#dialogWindow p.message {
+  text-align: center;
+  font-size:larger;
+}
+
+
+
