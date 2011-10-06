@@ -1,8 +1,7 @@
 /*
   # TODO
   ## A
-  通知処理。アプリがバックグラウンドに回った時。
-  fix スリープで処理止まる。
+  アラート音をシステムサウンドで統一する。
   たまに出る画面下の白線を取る
   タイマー停止時にも回転アニメーション
   Javascript リファクタリング。メンテしやすく。
@@ -13,6 +12,8 @@
   履歴機能
 
   # DONE
+  fix スリープで処理止まる。
+  通知処理。アプリがバックグラウンドに回った時。
   jislint でエラー出ないようにした
   画面ずれ修正
   アイコン作成。
@@ -96,6 +97,10 @@ var initNumBreakLongBreak = 15;
 // var initNumBreakLongBreak = 0.1; // debug
 var initNumAction = 25;
 
+function resetBeep(){
+    clearTimeout(timeoutBeep);
+}
+
 function resetIntarval() {
     nondisplayControlButton();
     // displayMinButton();
@@ -108,7 +113,7 @@ function resetIntarval() {
     opacityMinButton(1, 1, 1);
 
     plugins.localNotification.cancelAll();
-    clearTimeout(timeoutBeep);
+    resetBeep();
 }
 
 // todo
@@ -140,7 +145,7 @@ function doneBeep() {
 // }
 
 function doneAlert(min) {
-    var msgTitle = 'time expired';
+    var msgTitle = 'PomoMinutes';
     var message = min + ' minuites expired';
     if (min === 1) {
         message = min + ' minuite expired';
@@ -224,7 +229,6 @@ function onTimer(initSetMinTime) {
 
     // initTime = new Date();
 
-    // timeoutBeep = setTimeout(doneBeep, 5 * 1000);
     timeoutBeep = setTimeout(doneBeep, initSetMinTime * 60 * 1000 - 1 * 1000);
     
     intervalTimer = setInterval(function() {
@@ -266,10 +270,12 @@ function onDeviceReady() {
 		    date: d,
 		    message: 'time expired',
 		    hasAction: true,
-		    //badge: 1,
+		    // hasAction: false,
 		    badge: 0,
 		    id: '123'
 	    });
+
+        resetBeep();
     }
 }
 function onBodyLoad()
