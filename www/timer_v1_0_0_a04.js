@@ -3,7 +3,6 @@
   ## A
   通知処理。アプリがバックグラウンドに回った時。
   fix スリープで処理止まる。
-  たまに出る画面下の白線を取る
   タイマー停止時にも回転アニメーション
   Javascript リファクタリング。メンテしやすく。
   ## B
@@ -76,7 +75,7 @@ function loadSettings() {
 function displayControlButton() {
     $('div .controlButton').removeAttr('style');
 }
-function nondisplayControlButton() {
+function nondisplayControlButtona() {
     $('div .controlButton').css('display', 'none');
 }
 
@@ -87,7 +86,6 @@ function opacityMinButton(a, b, c) {
     $('#home .minButton .actionButton').css('opacity', c);
 }
 
-var timeoutBeep = null;
 var intervalTimer = null;
 var setIntervalTimer = null;
 
@@ -97,18 +95,13 @@ var initNumBreakLongBreak = 15;
 var initNumAction = 25;
 
 function resetIntarval() {
-    nondisplayControlButton();
+    nondisplayControlButtona();
     // displayMinButton();
-
-       
 
     clearInterval(setIntervalTimer);
     clearInterval(intervalTimer);
 
     opacityMinButton(1, 1, 1);
-
-    plugins.localNotification.cancelAll();
-    clearTimeout(timeoutBeep);
 }
 
 // todo
@@ -140,7 +133,7 @@ function doneBeep() {
 // }
 
 function doneAlert(min) {
-    var msgTitle = 'time expired';
+    var msgTitle = 'TIME IS UP';
     var message = min + ' minuites expired';
     if (min === 1) {
         message = min + ' minuite expired';
@@ -183,7 +176,8 @@ function displayTimer(docID, baseImage, minuteHandImage, gearImage, angle) {
 
 
 }
-	
+
+
 
 
 function onTimer(initSetMinTime) {
@@ -224,10 +218,7 @@ function onTimer(initSetMinTime) {
 
     // initTime = new Date();
 
-    // timeoutBeep = setTimeout(doneBeep, 5 * 1000);
-    timeoutBeep = setTimeout(doneBeep, initSetMinTime * 60 * 1000 - 1 * 1000);
-    
-    intervalTimer = setInterval(function() {
+     intervalTimer = setInterval(function() {
         isRotation = -1;
         nowTime = new Date().getTime();
         elapsedTimeSec = Math.floor((initTime.getTime() - nowTime) / 1000);
@@ -238,7 +229,8 @@ function onTimer(initSetMinTime) {
         if (elapsedTimeSec <= initSetMinTime * 60 * -1) {
 
             if (initSetMinTime !== 0) {
-                // doneBeep();
+                doneBeep();
+                // doneVibration();
                 doneAlert(initSetMinTime);
             }
             resetIntarval();
@@ -247,88 +239,32 @@ function onTimer(initSetMinTime) {
     }, 1000);
 }
 
-
-// localNotification
-/* When this function is called, PhoneGap has been initialized and is ready to roll */
-
-var alertTime = 0;
-
-function onDeviceReady() {
-    if (alertTime !== 0) {
-	    var d = new Date();
-	    // d = d.getTime() + 60*1000; //60 seconds from now
-	    d = d.getTime() + initSetMinTime * 60 * 1000 - 2000;
-        // d = d.getTime() + 5 * 1000;
-
-	    
-	    d = new Date(d);
-	    plugins.localNotification.add({
-		    date: d,
-		    message: 'time expired',
-		    hasAction: true,
-		    //badge: 1,
-		    badge: 0,
-		    id: '123'
-	    });
-    }
-}
-function onBodyLoad()
-{
-	document.addEventListener("deviceready",onDeviceReady,false);
-}
-
-var initSetMinTime = 0;
-
 function startShortBreakTimer() {
-    initSetMinTime = localStorage.shortBreak;
-    alertTime = initSetMinTime;
 
     resetIntarval();
-    onTimer(initSetMinTime);
-    onDeviceReady();
-
+    // clearInterval(intervalTimer);
+    // onTimer(initNumShortBreak);
+    onTimer(localStorage.shortBreak);
     opacityMinButton(0.9, 0.4, 0.4);
 
+    // hideMinButton(); // todo
 }
 
 function startLongBreakTimer() {
-    initSetMinTime = localStorage.longBreak;
-    alertTime = initSetMinTime;
-
     resetIntarval();
-    onTimer(initSetMinTime);
-    onDeviceReady();
-
-    // alertTime = localStorage.longBreak;
-    // onBodyLoad();
-
-    // resetIntarval();
-    // // onTimer(initNumBreakLongBreak);
-    // onTimer(localStorage.longBreak);
+    // onTimer(initNumBreakLongBreak);
+    onTimer(localStorage.longBreak);
     opacityMinButton(0.4, 0.9, 0.4);
-
 }
 
 function startActTimer() {
-    initSetMinTime = localStorage.action;
-    alertTime = initSetMinTime;
-
     resetIntarval();
-    onTimer(initSetMinTime);
-    onDeviceReady();
-
-    // alertTime = localStorage.action;
-    // onBodyLoad();
-
-    // resetIntarval();
-    // // onTimer(initNumAction);
-    // onTimer(localStorage.action);
+    // onTimer(initNumAction);
+    onTimer(localStorage.action);
     opacityMinButton(0.4, 0.4, 0.9);
 }
 
 function stopTimer() {
-    alertTime = 0;
-
     resetIntarval();
     onTimer(0);
 }
@@ -336,7 +272,6 @@ function stopTimer() {
 
 $(document).ready(function() {
     $('#home').ready(loadHomeVal);
-    $('#home').ready(onBodyLoad);
     $('#home').live('pagebeforeshow', function(e, ui) {
         loadHomeVal();
     });
