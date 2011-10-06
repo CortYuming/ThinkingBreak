@@ -1,14 +1,11 @@
 /*
   # TODO
-  ## A
   B アラート音をシステムサウンドで統一する。
-  タイマー停止時にも回転アニメーション
-  Javascript リファクタリング。メンテしやすく。
-  ## B
-  リファクタリング。コードをメンテしやすいように
-  アプリ裏で動いてる時のためのアラートとバイブレーション。
-  ボタン押してから5秒後に時計のみ表示。画面タップでボタン表示。
-  履歴機能
+  B タイマー停止時にも回転アニメーション
+  B Javascript リファクタリング。メンテしやすく。
+  C バイブレーション機能
+  C ボタン押してから5秒後に時計のみ表示。画面タップでボタン表示。
+  B 次期メジャーアップデートで、履歴機能
 
   # DONE
   たまに出る画面下の白線を取る
@@ -104,8 +101,6 @@ function resetBeep(){
 function resetIntarval() {
     nondisplayControlButton();
     // displayMinButton();
-
-       
 
     clearInterval(setIntervalTimer);
     clearInterval(intervalTimer);
@@ -210,9 +205,11 @@ function onTimer(initSetMinTime) {
     var isRotation = 1;
     var nowTime = null;
     var elapsedTimeSec = null;
-    var angle = null;
-    // var speed = 300 / initSetMinTime;
-    var speed = 500 / initSetMinTime;
+    var angle = 0;
+    // var speed = 25;
+    // var speed = Math.floor(500 / initSetMinTime);
+
+    var speed = 1000 / initSetMinTime;
 
     setIntervalTimer = setInterval(function() {
         nowTime = new Date().getTime();
@@ -227,9 +224,25 @@ function onTimer(initSetMinTime) {
         displayTimer(timer, baseImage, minuteHandImage, gearImage, angle);
     }, speed);
 
-    // initTime = new Date();
+    // var speed = 30;
+    
+    // setIntervalTimer = setInterval(function() {
+    //     isRotation = 1;
+    //     nowTime = new Date().getTime();
+    //     elapsedTimeSec = Math.floor((initTime.getTime() - nowTime) / speed);
 
-    timeoutBeep = setTimeout(doneBeep, initSetMinTime * 60 * 1000 - 1 * 1000);
+    //     angle = (elapsedTimeSec) * (6 * isRotation);
+
+    //     if (elapsedTimeSec <= initSetMinTime * -1) {
+    //         clearInterval(setIntervalTimer);
+    //     }
+
+    //     displayTimer(timer, baseImage, minuteHandImage, gearImage, angle);
+    // }, speed);
+
+    if (initSetMinTime !==0) {
+        timeoutBeep = setTimeout(doneBeep, initSetMinTime * 60 * 1000 - 1000);
+    }
     
     intervalTimer = setInterval(function() {
         isRotation = -1;
