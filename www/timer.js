@@ -259,12 +259,12 @@ var alertTime = 0;
 
 function onDeviceReady() {
     if (alertTime !== 0) {
+
 	    var d = new Date();
 	    // d = d.getTime() + 60*1000; //60 seconds from now
 	    d = d.getTime() + initSetMinTime * 60 * 1000 - 2000;
         // d = d.getTime() + 5 * 1000;
 
-	    
 	    d = new Date(d);
 	    plugins.localNotification.add({
 		    date: d,
@@ -275,7 +275,6 @@ function onDeviceReady() {
 		    id: '123'
 	    });
 
-        resetBeep();
     }
 }
 function onBodyLoad()
