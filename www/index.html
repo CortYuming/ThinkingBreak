@@ -23,8 +23,6 @@
       </div>
 
       <div id="contentTimer">
-        <!-- <canvas id="timer" width="320" height="480"></canvas> -->
-        <!-- <canvas id="timer" width="440" height="440"></canvas> -->
         <canvas id="timer" width="320" height="416"></canvas>
         <!-- <script type="text/javascript" src="timer.js"></script> -->
       </div>
@@ -37,14 +35,15 @@
           <a href="" data-role="button" data-theme="a" class="longBreakButton">15</a>
         </div>
         <div data-role="controlgroup">
-          <a href="" data-role="button" data-theme="c" class="actionButton">25</a>
+          <a href="" data-role="button" data-theme="c" class="actionButton">45</a>
         </div>
       </div>
       <div class="controlButton" style="display:none">
-        <div data-role="controlgroup">
-          <a  href="" data-role="button" data-theme="a" class="stopButton"><img src="img/ctrlStop.png" alt="Start" /></a>
-        </div>
+        <a  href="" data-role="button" data-theme="e" class="stopButton"><img src="img/ctrlStop.png" alt="Start" /></a>
       </div>
+
+      <div id="lightSwitchOff"><img src="img/watch_lightoff.png" /></div>
+      <div id="lightSwitchOn" style="display:none"><img src="img/watch_lighton.png" /></div>
 
       <div id="dialogButtone" style="display:none">
         <!-- <div id="dialogButtone"> -->
@@ -61,10 +60,10 @@
         <H1>Dialog</h1>
       </div>
       <div data-role="content" data-theme="c">
-        <p class="message">25 minuites expired</p>
+        <p class="message">45 minuites expired</p>
         <a href="#home" data-role="button" data-rel="dialog" data-theme="a" class="shortBreakButton">Short Break</a>
         <a href="#home" data-role="button" data-rel="dialog" data-theme="a" class="longBreakButton">Long Break</a>
-        <a href="#home" data-role="button" data-rel="dialog" data-theme="c" class="actionButton">Action</a>
+        <a href="#home" data-role="button" data-rel="dialog" data-theme="c" class="actionButton">Thinking</a>
         <a href="#home" data-role="button" data-rel="dialog" data-theme="b">Stop</a>
       </div>
     </div>
@@ -90,11 +89,11 @@
         <fieldset>
           <label for="shortBreak">Short break time:</label>
           <input type="range" name="shortBreak" id="shortBreak" value="5" min="1" max="55" />
-          <!-- debug -->
-<!-- <input type="range" name="shortBreak" id="shortBreak" value="5" min="0.1" max="55" />  -->
+          debug
+<!-- <input type="range" name="shortBreak" id="shortBreak" value="5" min="0.1" max="55" /> -->
 <label for="longBreak">Long break time:</label>
           <input type="range" name="longBreak" id="longBreak" value="15" min="1" max="55" />
-          <label for="action">Action time:</label>
+          <label for="action">Thinking time:</label>
           <input type="range" name="action" id="action" value="25" min="1" max="55" />
         </fieldset>
         <br />

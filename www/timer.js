@@ -1,5 +1,6 @@
 /*
   # TODO
+  アラート通知にLightOn表示
   B アラート音をシステムサウンドで統一する。
   B タイマー停止時にも回転アニメーション
   B Javascript リファクタリング。メンテしやすく。
@@ -8,6 +9,7 @@
   B 次期メジャーアップデートで、履歴機能
 
   # DONE
+  A 終了時アラートsetTimeOutでやる
   たまに出る画面下の白線を取る
   fix スリープで処理止まる。
   通知処理。アプリがバックグラウンドに回った時。
@@ -86,6 +88,7 @@ function opacityMinButton(a, b, c) {
 }
 
 var timeoutBeep = null;
+var timeoutAlert = null;
 var intervalTimer = null;
 var setIntervalTimer = null;
 
@@ -94,9 +97,8 @@ var initNumBreakLongBreak = 15;
 // var initNumBreakLongBreak = 0.1; // debug
 var initNumAction = 25;
 
-function resetBeep(){
-    clearTimeout(timeoutBeep);
-}
+var initSetMinTime = 0;
+
 
 function resetIntarval() {
     nondisplayControlButton();
@@ -107,8 +109,15 @@ function resetIntarval() {
 
     opacityMinButton(1, 1, 1);
 
-    plugins.localNotification.cancelAll();
-    resetBeep();
+    try {
+        plugins.localNotification.cancelAll();
+    } catch(e) {
+        // nothing function for Web Browser
+    }
+
+
+    clearTimeout(timeoutBeep);
+    clearTimeout(timeoutAlert);
 }
 
 // todo
@@ -122,9 +131,6 @@ function doneBeep() {
     // Bell (small) - (MP3, 58.7 kb)
     try {
         navigator.notification.beep();
-        // navigator.notification.alert('test message',
-        //                              navigator.notification.beep(),
-        //                              'Title', '');
     } catch (e) {
         var audioBeep = new Audio('beep.wav');
         audioBeep.play();
@@ -139,23 +145,23 @@ function doneBeep() {
 //     }
 // }
 
-function doneAlert(min) {
+function doneAlert() {
+    var min = initSetMinTime;
     var msgTitle = 'PomoMinutes';
     var message = min + ' minuites expired';
     if (min === 1) {
         message = min + ' minuite expired';
     }
 
-    // PhoneGap only (native func)
     // try {
+    //     // PhoneGap only (native func)
     //     navigator.notification.alert(message, null, msgTitle, '');
     //  } catch (e) {
-    //      alert(msgTitle + ': ' + message);
-    // }
 
     $('#dialogWindow h1').text(msgTitle);
     $('#dialogWindow p.message').text(message);
     $('#dialogButtone a').click();
+    // }
 }
 
 // function displayTimer(docID, baseImage, minuteHandImage, angle) {
@@ -183,7 +189,7 @@ function displayTimer(docID, baseImage, minuteHandImage, gearImage, angle) {
 
 
 }
-	
+
 
 
 function onTimer(initSetMinTime) {
@@ -241,7 +247,10 @@ function onTimer(initSetMinTime) {
     // }, speed);
 
     if (initSetMinTime !==0) {
-        timeoutBeep = setTimeout(doneBeep, initSetMinTime * 60 * 1000 - 1000);
+        timeoutBeep = setTimeout(doneBeep,
+                                 initSetMinTime * 60 * 1000 - 1000);
+        timeoutAlert = setTimeout(doneAlert,
+                                  initSetMinTime * 60 * 1000 - 1000);
     }
     
     intervalTimer = setInterval(function() {
@@ -254,10 +263,6 @@ function onTimer(initSetMinTime) {
 
         if (elapsedTimeSec <= initSetMinTime * 60 * -1) {
 
-            if (initSetMinTime !== 0) {
-                // doneBeep();
-                doneAlert(initSetMinTime);
-            }
             resetIntarval();
         }
         displayTimer(timer, baseImage, minuteHandImage, gearImage, angle);
@@ -278,15 +283,27 @@ function onDeviceReady() {
 	    d = d.getTime() + initSetMinTime * 60 * 1000 - 2000;
         // d = d.getTime() + 5 * 1000;
 
+        var min = initSetMinTime;
+        var message = min + ' minuites expired';
+        if (min === 1) {
+            message = min + ' minuite expired';
+        }
+        
 	    d = new Date(d);
-	    plugins.localNotification.add({
-		    date: d,
-		    message: 'time expired',
-		    hasAction: true,
-		    // hasAction: false,
-		    badge: 0,
-		    id: '123'
-	    });
+
+        try {
+	        plugins.localNotification.add({
+		        date: d,
+		        // message: 'time expired',
+		        message: message,
+		        hasAction: true,
+		        // hasAction: false,
+		        badge: 0,
+		        id: '123'
+	        });
+        } catch(e) {
+        // nothing function for Web Browser
+        }
 
     }
 }
@@ -295,7 +312,6 @@ function onBodyLoad()
 	document.addEventListener("deviceready",onDeviceReady,false);
 }
 
-var initSetMinTime = 0;
 
 function startShortBreakTimer() {
     initSetMinTime = localStorage.shortBreak;
@@ -306,7 +322,7 @@ function startShortBreakTimer() {
     onDeviceReady();
 
     opacityMinButton(0.9, 0.4, 0.4);
-
+    $('#lightSwitchOn').css('display', 'none');
 }
 
 function startLongBreakTimer() {
@@ -317,14 +333,8 @@ function startLongBreakTimer() {
     onTimer(initSetMinTime);
     onDeviceReady();
 
-    // alertTime = localStorage.longBreak;
-    // onBodyLoad();
-
-    // resetIntarval();
-    // // onTimer(initNumBreakLongBreak);
-    // onTimer(localStorage.longBreak);
     opacityMinButton(0.4, 0.9, 0.4);
-
+    $('#lightSwitchOn').css('display', 'none');
 }
 
 function startActTimer() {
@@ -342,6 +352,8 @@ function startActTimer() {
     // // onTimer(initNumAction);
     // onTimer(localStorage.action);
     opacityMinButton(0.4, 0.4, 0.9);
+    // $('#lightSwitchOn').css('display', 'block');
+    $('#lightSwitchOn').removeAttr('style');
 }
 
 function stopTimer() {
@@ -373,3 +385,5 @@ $(document).ready(function() {
 
     $('#settings .saveButton').click(saveSettings);
 });
+
+
