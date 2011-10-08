@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <!-- <meta name="apple-mobile-web-app-status-bar-style" content="black" /> -->
-    <title>ThinkingBreak</title>
+    <title>PomoMinutes</title>
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="jq/jquery.mobile-1.0rc1.min.css" />
     <script type="text/javascript" src="jq/jquery-1.6.4.min.js"></script>
@@ -19,7 +19,7 @@
       
       <div data-role="header">
         <a href="#settings" class="settingsButton" data-role="button" data-icon="gear" data-transition="slide">Setting</a>
-        <h1>ThinkingBreak</h1>
+        <h1>PomoMinutes</h1>
       </div>
 
       <div id="contentTimer">
@@ -63,6 +63,7 @@
         <p class="message">45 minuites expired</p>
         <a href="#home" data-role="button" data-rel="dialog" data-theme="a" class="shortBreakButton">Short Break</a>
         <a href="#home" data-role="button" data-rel="dialog" data-theme="a" class="longBreakButton">Long Break</a>
+        <!-- <a href="#home" data-role="button" data-rel="dialog" data-theme="c" class="actionButton"><img src="img/watch_light_bg_white_on.png" alt="" align="top" class="lightSwitchOn"  style="display:none"/>Thinking</a> -->
         <a href="#home" data-role="button" data-rel="dialog" data-theme="c" class="actionButton"><span class="lightInDialog"><img src="img/watch_light_bg_white_off.png" alt="" align="top"/></span>Thinking</a>
         <a href="#home" data-role="button" data-rel="dialog" data-theme="b">Stop</a>
       </div>
@@ -92,10 +93,18 @@
 <label for="longBreak">Long break time:</label>
           <input type="range" name="longBreak" id="longBreak" value="15" min="1" max="55" />
           <label for="action">Thinking time:</label>
-          <input type="range" name="action" id="action" value="45" min="1" max="55" />
+          <input type="range" name="action" id="action" value="25" min="1" max="55" />
         </fieldset>
         <br />
-
+        <!-- <fieldset data-role="controlgroup"> -->
+        <!--   <legend>Notifier:</legend> -->
+        <!--   <input type="checkbox" name="CheckBoxAlertwindow" id="CheckBoxAlertwindow" checked="checked" /> -->
+        <!--   <label for="CheckBoxAlertwindow">alert window</label> -->
+        <!--   <input type="checkbox" name="CheckBoxBeepsound" id="CheckBoxBeepsound" checked="checked"/> -->
+        <!--   <label for="CheckBoxBeepsound">beep sound</label> -->
+        <!-- <input type="checkbox" name="vibration" id="vibration"/> -->
+        <!-- <label for="vibration">vibration</label> -->
+        <!-- </fieldset> -->
       </div>
       
     </div>

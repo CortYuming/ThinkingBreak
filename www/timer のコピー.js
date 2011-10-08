@@ -147,7 +147,7 @@ function doneBeep() {
 
 function doneAlert() {
     var min = initSetMinTime;
-    var msgTitle = 'ThinkingBreak';
+    var msgTitle = 'PomoMinutes';
     var message = min + ' minuites expired';
     if (min === 1) {
         message = min + ' minuite expired';
@@ -328,7 +328,8 @@ function startShortBreakTimer() {
     onDeviceReady();
 
     opacityMinButton(0.9, 0.4, 0.4);
-    $('#lightSwitchOn').css('display', 'none');
+    $('#lightSwitchOn').css('display', 'none'); // todo クラスにすると動かず？
+    // $('.lightSwitchOn').css('display', 'none'); // usedialogWindow
     lightInDialogOff();
 
 }
@@ -361,7 +362,10 @@ function startActTimer() {
     // // onTimer(initNumAction);
     // onTimer(localStorage.action);
     opacityMinButton(0.4, 0.4, 0.9);
+    // $('#lightSwitchOn').css('display', 'block');
     $('#lightSwitchOn').removeAttr('style');
+    // $('.lightSwitchOn').removeAttr('style');
+    // $('.lightInDialog').html('<img src="img/watch_light_bg_white_on.png" alt="" align="top" class="lightSwitchOn"/>');
     lightInDialogOn();
     
     
