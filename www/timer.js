@@ -145,13 +145,24 @@ function doneBeep() {
 //     }
 // }
 
-function doneAlert() {
+var lightInDialogStatus = '';
+
+function alertMessage() {
     var min = initSetMinTime;
+    var status = lightInDialogStatus;
+    var message = status + ' time expired: ' + min + ' min';
+    return message;
+    
+}
+
+function doneAlert() {
     var msgTitle = 'ThinkingBreak';
-    var message = min + ' minuites expired';
-    if (min === 1) {
-        message = min + ' minuite expired';
-    }
+    // var min = initSetMinTime;
+    // var message = status + min + ' minuites expired';
+    // if (min === 1) {
+    //     message = status + min + ' minuite expired';
+    // }
+    var message = alertMessage();
 
     // try {
     //     // PhoneGap only (native func)
@@ -283,18 +294,18 @@ function onDeviceReady() {
 	    d = d.getTime() + initSetMinTime * 60 * 1000 - 2000;
         // d = d.getTime() + 5 * 1000;
 
-        var min = initSetMinTime;
-        var message = min + ' minuites expired';
-        if (min === 1) {
-            message = min + ' minuite expired';
-        }
-        
+        // var min = initSetMinTime;
+        // var message = min + ' minuites expired';
+        // if (min === 1) {
+        //     message = min + ' minuite expired';
+        // }
+        var message = alertMessage();
+
 	    d = new Date(d);
 
         try {
 	        plugins.localNotification.add({
 		        date: d,
-		        // message: 'time expired',
 		        message: message,
 		        hasAction: true,
 		        // hasAction: false,
@@ -313,13 +324,19 @@ function onBodyLoad()
 }
 
 function lightInDialogOn() {
-    var on = $('.lightInDialog').html('<img src="img/watch_light_bg_white_on.png" alt="" align="top"/>');
+    $('#lightSwitchOn').removeAttr('style');
+    $('.lightInDialog').html('<img src="img/watch_light_bg_white_on.png" alt="" align="top"/>');
+    lightInDialogStatus = "Thinking";
 }
 function lightInDialogOff() {
-    var off = $('.lightInDialog').html('<img src="img/watch_light_bg_white_off.png" alt="" align="top"/>');
+    $('#lightSwitchOn').css('display', 'none');
+    $('.lightInDialog').html('<img src="img/watch_light_bg_white_off.png" alt="" align="top"/>');
+    lightInDialogStatus = "Break";
 }
 
 function startShortBreakTimer() {
+    lightInDialogOff();
+
     initSetMinTime = localStorage.shortBreak;
     alertTime = initSetMinTime;
 
@@ -328,12 +345,12 @@ function startShortBreakTimer() {
     onDeviceReady();
 
     opacityMinButton(0.9, 0.4, 0.4);
-    $('#lightSwitchOn').css('display', 'none');
-    lightInDialogOff();
 
 }
 
 function startLongBreakTimer() {
+    lightInDialogOff();
+
     initSetMinTime = localStorage.longBreak;
     alertTime = initSetMinTime;
 
@@ -342,11 +359,11 @@ function startLongBreakTimer() {
     onDeviceReady();
 
     opacityMinButton(0.4, 0.9, 0.4);
-    $('#lightSwitchOn').css('display', 'none');
-    lightInDialogOff();
 }
 
 function startActTimer() {
+    lightInDialogOn();
+
     initSetMinTime = localStorage.action;
     alertTime = initSetMinTime;
 
@@ -361,10 +378,6 @@ function startActTimer() {
     // // onTimer(initNumAction);
     // onTimer(localStorage.action);
     opacityMinButton(0.4, 0.4, 0.9);
-    $('#lightSwitchOn').removeAttr('style');
-    lightInDialogOn();
-    
-    
 }
 
 function stopTimer() {
