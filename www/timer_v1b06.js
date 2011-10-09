@@ -85,11 +85,6 @@ function opacityMinButton(a, b, c) {
     $('#home .minButton .shortBreakButton').css('opacity', a);
     $('#home .minButton .longBreakButton').css('opacity', b);
     $('#home .minButton .actionButton').css('opacity', c);
-    if (c === 1) {
-        $('#home #lightSwitchOff img').css('opacity', 1);
-    } else {
-        $('#home #lightSwitchOff img').css('opacity', 0);
-    }
 }
 
 var timeoutBeep = null;
@@ -122,9 +117,6 @@ function resetIntarval() {
 
 
     clearTimeout(timeoutBeep);
-}
-
-function resetAlert() {
     clearTimeout(timeoutAlert);
 }
 
@@ -266,10 +258,10 @@ function onTimer(initSetMinTime) {
     // }, speed);
 
     if (initSetMinTime !==0) {
-        timeoutAlert = setTimeout(doneAlert,
-                                  initSetMinTime * 60 * 1000 - 1000);
         timeoutBeep = setTimeout(doneBeep,
                                  initSetMinTime * 60 * 1000 - 1000);
+        timeoutAlert = setTimeout(doneAlert,
+                                  initSetMinTime * 60 * 1000 - 1000);
     }
     
     intervalTimer = setInterval(function() {
@@ -349,7 +341,6 @@ function startShortBreakTimer() {
     alertTime = initSetMinTime;
 
     resetIntarval();
-    resetAlert();
     onTimer(initSetMinTime);
     onDeviceReady();
 
@@ -364,7 +355,6 @@ function startLongBreakTimer() {
     alertTime = initSetMinTime;
 
     resetIntarval();
-    resetAlert();
     onTimer(initSetMinTime);
     onDeviceReady();
 
@@ -378,7 +368,6 @@ function startActTimer() {
     alertTime = initSetMinTime;
 
     resetIntarval();
-    resetAlert();
     onTimer(initSetMinTime);
     onDeviceReady();
 
@@ -392,12 +381,9 @@ function startActTimer() {
 }
 
 function stopTimer() {
-    lightInDialogOff();
-
     alertTime = 0;
 
     resetIntarval();
-    resetAlert();
     onTimer(0);
 }
 
