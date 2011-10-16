@@ -18,39 +18,33 @@
     <div data-role="page" id="home" data-theme="a">
       
       <div data-role="header">
-        <a href="#settings" class="settingsButton" data-role="button" data-icon="gear" data-transition="slide">Setting</a>
         <h1>ThinkingBreak</h1>
+        <a href="#settings" class="settingsButton ui-btn-right" data-role="button" data-icon="gear" data-transition="slide">Setting</a>
       </div>
 
+      
       <div id="contentTimer">
         <canvas id="timer" width="320" height="416"></canvas>
         <!-- <script type="text/javascript" src="timer.js"></script> -->
       </div>
 
-      <div class="minButton">
-        <div data-role="controlgroup">
-          <a href="" data-role="button" data-theme="a" class="shortBreakButton">5</a>
+        <div class="controlStopButton" style="display:none">
+          <a  href="" data-role="button" data-icon="delete" data-theme="e" class="stopButton">Stop</a>
         </div>
-        <div data-role="controlgroup">
-          <a href="" data-role="button" data-theme="a" class="longBreakButton">15</a>
-        </div>
-        <div data-role="controlgroup">
-          <a href="" data-role="button" data-theme="c" class="actionButton">45</a>
-        </div>
-      </div>
-      <div class="controlButton" style="display:none">
-        <a  href="" data-role="button" data-theme="e" class="stopButton"><img src="img/ctrlStop.png" alt="Start" /></a>
-      </div>
 
-      <!-- <div id="lightSwitchOff"><img src="img/watch_lightoff.png" /></div> -->
-      <!-- <div id="lightSwitchOn" style="display:none"><img src="img/watch_lighton.png" /></div> -->
-      <div id="lightSwitchOff"><img src="img/watch_light_bg_white_off.png" /></div>
-      <div id="lightSwitchOn" style="display:none"><img src="img/watch_light_bg_white_on.png" /></div>
+        <div class="minButton">
+          <a href="" class="shortBreakButton" data-role="button" data-theme="a"><img src="" alt="" />Short break</a>
+          <a href="" class="longBreakButton" data-role="button" data-theme="a"><img src="" alt="" />Long break</a>
+          <a href="" class="actionButton" data-role="button" data-theme="c"><img src="" alt="" />Thinking</a>
+        </div>
 
-      <div id="dialogButtone" style="display:none">
-        <!-- <div id="dialogButtone"> -->
-        <a href="#dialogWindow" data-role="button" data-inline="true" data-rel="dialog" data-transition="pop">Open dialog</a>
-      </div>
+        <div id="onOffLightOff"><img src="img/before_on_off_light_big_off.png" /></div>
+        <div id="onOffLight" style="display:none"><img src="img/before_on_off_light_big.png" /></div>
+
+        <div id="dialogButtone" style="display:none">
+          <a href="#dialogWindow" data-role="button" data-inline="true" data-rel="dialog" data-transition="pop">Open dialog</a>
+        </div>
+
       
     </div>
 
@@ -65,9 +59,10 @@
         <p class="message">45 minuites expired</p>
         <a href="#home" data-role="button" data-rel="dialog" data-theme="a" class="shortBreakButton">Short Break</a>
         <a href="#home" data-role="button" data-rel="dialog" data-theme="a" class="longBreakButton">Long Break</a>
-        <a href="#home" data-role="button" data-rel="dialog" data-theme="c" class="actionButton"><span class="lightInDialog"><img src="img/watch_light_bg_white_off.png" alt="" align="top"/></span>Thinking</a>
+        <a href="#home" data-role="button" data-rel="dialog" data-theme="c" class="actionButton">Thinking</a>
         <a href="#home" data-role="button" data-rel="dialog" data-theme="e">Stop</a>
       </div>
+        
     </div>
 
 

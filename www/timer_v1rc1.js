@@ -27,23 +27,34 @@
 */
 
 
-function initMinute() {
-    // init
-    if (localStorage.shortBreak === undefined) {
-        localStorage.shortBreak = $('#shortBreak').val();
-    }
-    if (localStorage.longBreak === undefined) {
-        localStorage.longBreak = $('#longBreak').val();
-    }
-    if (localStorage.action === undefined) {
-        localStorage.action = $('#action').val();
-    }
-}
+
+
+// function loadHomeVal() {
+//     // ボタンの数字を設定に合わせて変える関数
+//     // todo これ使うとボタンのサイズがおかしくなる？ (when HTMLにclass記述)
+//     // 関数別にするとlocalStorage読まなくなる？
+//     // Slider
+//     if (localStorage.shortBreak === undefined) {
+//         localStorage.shortBreak = $('#home a.shortBreakButton').text();
+//     }
+//     $('#home a.shortBreakButton').text(localStorage.shortBreak);
+
+//     if (localStorage.longBreak === undefined) {
+//         localStorage.longBreak = $('#home a.longBreakButton').text();
+//     }
+//     $('#home a.longBreakButton').text(localStorage.longBreak);
+
+//     if (localStorage.action === undefined) {
+//         localStorage.action = $('#home a.actionButton').text();
+//     }
+//     $('#home a.actionButton').text(localStorage.action); 
+// }
 
 function saveSettings() {
     localStorage.shortBreak = $('#shortBreak').val();
     localStorage.longBreak = $('#longBreak').val();
     localStorage.action = $('#action').val();
+    // loadHomeVal();
 }
 
 function loadSettings() {
@@ -51,13 +62,26 @@ function loadSettings() {
     $('#shortBreak').val(localStorage.shortBreak).slider('refresh');
     $('#longBreak').val(localStorage.longBreak).slider('refresh');
     $('#action').val(localStorage.action).slider('refresh');
+
+    // CheckBox
+    // if (localStorage.isCheckBoxAlert == undefined)
+    //     localStorage.isCheckBoxAlert = false;
+    // alert($('#CheckBoxAlertwindow').attr('checked'));
+
+    // $('#CheckBoxAlertwindow').attr('checked', localStorage.isCheckBoxAlert)
+    //     .checkboxradio('refresh');
+
+    // if (localStorage.isCheckBoxBeep == undefined)
+    //     localStorage.isCheckBoxBeep = true;
+    // $('#CheckBoxBeepsound').attr('checked', localStorage.isCheckBoxBeep)
+    //     .checkboxradio('refresh');
 }
 
-function controlStopButtonVisible() {
-    $('div .controlStopButton').removeAttr('style');
+function controlButtonVisible() {
+    $('div .controlButton').removeAttr('style');
 }
-function controlStopButtonNonVisible() {
-    $('div .controlStopButton').css('display', 'none');
+function controlButtonNonVisible() {
+    $('div .controlButton').css('display', 'none');
 }
 
 var minuiteButton = {
@@ -69,29 +93,37 @@ var minuiteButton = {
     }                      
 };
 
+// function opacityMinButton(a, b, c) {
+//     // $('#home .minButton').css('opacity', 0.8);
+//     $('#home .minButton .shortBreakButton').css('opacity', a);
+//     $('#home .minButton .longBreakButton').css('opacity', b);
+//     $('#home .minButton .actionButton').css('opacity', c);
+//     if (c === 1) {
+//         $('#home #lightSwitchOff img').css('opacity', 1);
+//     } else {
+//         $('#home #lightSwitchOff img').css('opacity', 0);
+//     }
+// }
 
 var timeoutBeep;
 var timeoutAlert;
 var intervalTimer;
 var setIntervalTimer;
 
+var initNumShortBreak = 5;
+var initNumBreakLongBreak = 15;
+// var initNumBreakLongBreak = 0.1; // debug
+var initNumAction = 25;
+
 var initSetMinTime = 0;
 
-var onOffLight = {
-    visible:function() {
-        $('#onOffLight').removeAttr('style');
-    },
-    nonvisible:function() {
-        $('#onOffLight').css('display', 'none');
-    }                      
-};
 
 function resetIntarval() {
-    onOffLight.nonvisible();
-
+    // opacityMinButton(1, 1, 1);
     minuiteButton.visible();
 
-    controlStopButtonNonVisible();
+    controlButtonNonVisible();
+    // displayMinButton();
 
     clearInterval(setIntervalTimer);
     clearInterval(intervalTimer);
@@ -107,8 +139,13 @@ function resetIntarval() {
     clearTimeout(timeoutBeep);
 }
 
-// function resetAlert() {
-//     clearTimeout(timeoutAlert);
+function resetAlert() {
+    clearTimeout(timeoutAlert);
+}
+
+// todo
+// function hideMinButton() {
+//    var hideButSet = setTimeout("$('#home .minButton a').hide()", 3000);
 // }
 
 
@@ -137,23 +174,24 @@ function alertMessage() {
     var min = initSetMinTime;
     var status = statusThinkingOrBreak;
     var message = status + ' time expired: ' + min + ' min';
-    return message;   
+    return message;
+    
 }
 
-// function doneAlert() {
-//     var msgTitle = 'ThinkingBreak';
-//     var message = alertMessage();
+function doneAlert() {
+    var msgTitle = 'ThinkingBreak';
+    var message = alertMessage();
 
-//     try {
-//         // PhoneGap only (native func)
-//         navigator.notification.alert(message, null, msgTitle, '');
-//     } catch (e) {
-//         // web browser
-//         $('#dialogWindow h1').text(msgTitle);
-//         $('#dialogWindow p.message').text(message);
-//         $('#dialogButtone a').click();
-//      }
-// }
+    try {
+        // PhoneGap only (native func)
+        navigator.notification.alert(message, null, msgTitle, '');
+    } catch (e) {
+        // web browser
+        $('#dialogWindow h1').text(msgTitle);
+        $('#dialogWindow p.message').text(message);
+        $('#dialogButtone a').click();
+     }
+}
 
 // function displayTimer(docID, baseImage, minuteHandImage, angle) {
 function displayTimer(docID, baseImage, minuteHandImage, gearImage, angle) {
@@ -178,13 +216,17 @@ function displayTimer(docID, baseImage, minuteHandImage, gearImage, angle) {
     context.drawImage(minuteHandImage, -xPos, -yPos);
     context.restore();
 
+
 }
 
 
+
 function onTimer(initSetMinTime) {
-    controlStopButtonVisible();
+    controlButtonVisible();
+    // $('div .controlButton').removeAttr('style');
 
     var startTime = new Date();
+    // var timer = document.getElementById('timer');
     var timer = $('#timer').get(0);
 
     var baseImage = new Image();
@@ -199,6 +241,8 @@ function onTimer(initSetMinTime) {
     var nowTime = null;
     var elapsedTimeSec = null;
     var angle = 0;
+    // var speed = 25;
+    // var speed = Math.floor(500 / initSetMinTime);
 
     var speed = 1000 / initSetMinTime;
 
@@ -215,10 +259,25 @@ function onTimer(initSetMinTime) {
         displayTimer(timer, baseImage, minuteHandImage, gearImage, angle);
     }, speed);
 
+    // var speed = 30;
+    
+    // setIntervalTimer = setInterval(function() {
+    //     isRotation = 1;
+    //     nowTime = new Date().getTime();
+    //     elapsedTimeSec = Math.floor((initTime.getTime() - nowTime) / speed);
+
+    //     angle = (elapsedTimeSec) * (6 * isRotation);
+
+    //     if (elapsedTimeSec <= initSetMinTime * -1) {
+    //         clearInterval(setIntervalTimer);
+    //     }
+
+    //     displayTimer(timer, baseImage, minuteHandImage, gearImage, angle);
+    // }, speed);
 
     if (initSetMinTime !==0) {
-        // timeoutAlert = setTimeout(doneAlert,
-        //                           initSetMinTime * 60 * 1000 - 1000);
+        timeoutAlert = setTimeout(doneAlert,
+                                  initSetMinTime * 60 * 1000 - 1000);
         timeoutBeep = setTimeout(doneBeep,
                                  initSetMinTime * 60 * 1000 - 1000);
     }
@@ -249,8 +308,15 @@ function onDeviceReady() {
     if (alertTime !== 0) {
 
 	    var d = new Date();
+	    // d = d.getTime() + 60*1000; //60 seconds from now
 	    d = d.getTime() + initSetMinTime * 60 * 1000 - 2000;
+        // d = d.getTime() + 5 * 1000;
 
+        // var min = initSetMinTime;
+        // var message = min + ' minuites expired';
+        // if (min === 1) {
+        //     message = min + ' minuite expired';
+        // }
         var message = alertMessage();
 
 	    d = new Date(d);
@@ -275,12 +341,11 @@ function onBodyLoad()
 	document.addEventListener("deviceready",onDeviceReady,false);
 }
 
-
-
 var checkBeforeStatus = {
     visible:function(cls) {
         $('#home .minButton a img').attr('src', '');
         $('#home .minButton ' + cls + ' img').attr('src', 'img/before_on_off_light.png');
+        
     },
     nonvisible:function() {
         $('#home .minButton a img').attr('src', '');
@@ -288,66 +353,88 @@ var checkBeforeStatus = {
     
 };
 
+// function lightInDialogOn() {
+//     $('#lightSwitchOn').removeAttr('style');
+//     $('.lightInDialog').html('<img src="img/watch_light_bg_white_on.png" alt="" align="top"/>');
+//     statusThinkingOrBreak = "Thinking";
+// }
+// function lightInDialogOff() {
+//     $('#lightSwitchOn').css('display', 'none');
+//     $('.lightInDialog').html('<img src="img/watch_light_bg_white_off.png" alt="" align="top"/>');
+//     statusThinkingOrBreak = "Break";
+// }
 
 function startShortBreakTimer() {
     checkBeforeStatus.visible('a.shortBreakButton');
+    // lightInDialogOff();
 
     initSetMinTime = localStorage.shortBreak;
     alertTime = initSetMinTime;
 
     resetIntarval();
-    // resetAlert();
+    resetAlert();
     onTimer(initSetMinTime);
     onDeviceReady();
 
+    // opacityMinButton(0.9, 0.4, 0.4);
     minuiteButton.nonvisible();
-    onOffLight.visible();
 }
 
 function startLongBreakTimer() {
     checkBeforeStatus.visible('a.longBreakButton');
+    // lightInDialogOff();
 
     initSetMinTime = localStorage.longBreak;
     alertTime = initSetMinTime;
 
     resetIntarval();
-    // resetAlert();
+    resetAlert();
     onTimer(initSetMinTime);
     onDeviceReady();
 
+    // opacityMinButton(0.4, 0.9, 0.4);
     minuiteButton.nonvisible();
-    onOffLight.visible();
 }
 
 function startActTimer() {
     checkBeforeStatus.visible('a.actionButton');
+    // lightInDialogOn();
 
     initSetMinTime = localStorage.action;
     alertTime = initSetMinTime;
 
     resetIntarval();
-    // resetAlert();
+    resetAlert();
     onTimer(initSetMinTime);
     onDeviceReady();
 
+    // alertTime = localStorage.action;
+    // onBodyLoad();
+
+    // resetIntarval();
+    // // onTimer(initNumAction);
+    // onTimer(localStorage.action);
+
+    // opacityMinButton(0.4, 0.4, 0.9);
     minuiteButton.nonvisible();
-    onOffLight.visible();
 }
 
 function stopTimer() {
+    // lightInDialogOff();
+
     alertTime = 0;
 
     resetIntarval();
-    // resetAlert();
+    resetAlert();
     onTimer(0);
 }
 
 
 $(document).ready(function() {
+    // $('#home').ready(loadHomeVal);
     $('#home').ready(onBodyLoad);
-    $('#home').ready(initMinute);
     // $('#home').live('pagebeforeshow', function(e, ui) {
-    //     initMinute();
+    //     loadHomeVal();
     // });
     $('#settings').live('pagebeforeshow', function(e, ui) {
         loadSettings();

@@ -25,58 +25,50 @@ body {
 
 .minButton {
   position: absolute;
-  /* left: 12px; */
-  left: -30px;
-  top: 190px;
-  /* top: 160px; */
-  width: 140px;
+  left: 5%;
+  top: 300px;
+  /* width:300px; */
+  width: 90%;
   margin: 0;
   padding: 0;
   /* memo: bottom, right で位置設定するとアニメーション時にズレる  */
-  /* bottom:60px; */
-  /* right: 5px; */
 }
 
-.minButton a.shortBreakButton,
-.minButton a.longBreakButton {
-  font-size:x-large;
-  margin-top: 12px;
-  /* padding-top: 15px; */
-  padding: 15px 0 0 20px;
-  height: 44px;
-}
-
-.minButton a.actionButton {
-  font-size:xx-large;
-  margin-top: 12px;
-  /* padding-top: 20px; */
-  padding: 20px 0 0 25px;
-  height: 60px;
-}
-
-.controlButton {
+.minButton a img {
   position: absolute;
-  left: -30px;
-  /* top: 120px; */
-  top: 60px;
+  left: 15px;
+  top: 10px;
+}
+
+
+
+/* stop button */
+.controlStopButton {
+  position: absolute;
+  top: 395px;
+  left: 5%;
   margin: 0;
   padding: 0;
-}
-
-.controlButton a {
-  width: 60px;
-  height: 40px;
-  padding: 0 0 0 5px;
+  width: 90%;
   opacity: 0.8;
 }
 
-/* .controlButton a img { */
+/* .controlStopButton a { */
+/*   /\* width: 40px; *\/ */
+/*   width: 90%; */
+/*   height: 40px; */
+/*   padding: 0 0 0 0; */
+/*     opacity: 0.8; */
+/* } */
+
+/* .controlStopButton a img { */
 /*   padding: 10px 15px 0 0; */
 /* } */
 
 #contentTimer {
   background-image: url("img/watch_bg.png");
   background-repeat: no-repeat;
+  /* background-position: center; */
 }
 
 #settings label {
@@ -91,17 +83,10 @@ body {
 
 
 
-/* #lightSwitchOff, */
-/* #lightSwitchOn img { */
-/*   position: absolute; */
-/*   left: 16px; */
-/*   top: 60px; */
-/* } */
-
-
-#lightSwitchOff,
-#lightSwitchOn img {
+#onOffLightOff,
+#onOffLight img {
   position: absolute;
-  left: 8px;
-  top: 388px;
+  left: 15px;
+  top: 60px;
+  opacity: 0.9;
 }
