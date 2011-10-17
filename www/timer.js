@@ -230,6 +230,9 @@ function onTimer(initSetMinTime) {
 
         angle = (initSetMinTime * 60 + elapsedTimeSec) * 6 / 60 *
             isRotation;
+        if (angle * isRotation < 0) {
+            angle = 0;
+        }
 
         if (elapsedTimeSec <= initSetMinTime * 60 * -1) {
 
